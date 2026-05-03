@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suellen Warmling — Mentora IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Design System LP NP1 — Cores */
+      --rust:           #D14527;
+      --rust-dark:      #B12E12;
+      --rust-mid:       #DA5B17;
+      --amber:          #D08529;
+      --hero-bg:        #8C5E3B;
+      --tan:            #A67855;
+      --warm-light:     #EBE4DA;
+      --warm-card:      #DED3BF;
+      --warm-surface:   #CEC2B4;
+      --section-dark:   #4F2A09;
+      --section-deep:   #482709;
+      --white:          #FFFFFF;
+      --off-white:      #FFFEFA;
+      --text-dark:      rgba(0,0,0,0.87);
+      --text-body:      #2F1516;
+      --text-muted:     #91999D;
+      --cta-green:      #04A51A;
+      --font:           'Instrument Sans', sans-serif;
+      --radius-sm:      6px;
+      --radius-md:      8px;
+      --radius-lg:      12px;
+      --radius-xl:      16px;
+      --radius-pill:    30px;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--warm-light);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--tan);
+      text-align: center;
+      padding: 9px 20px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.92);
+      font-weight: 400;
+      letter-spacing: 0.2px;
+    }
+    .topbar strong { font-weight: 700; color: #fff; }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--section-dark) 0%, var(--hero-bg) 100%);
+      padding: 14px 20px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rust) 0%, var(--amber) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .header-info { flex: 1; }
+
+    .header-info h1 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: 0.1px;
+    }
+
+    .header-info p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cta-green);
+      display: inline-block;
+      box-shadow: 0 0 6px rgba(4,165,26,0.6);
+      animation: pulse-green 2s infinite;
+    }
+
+    @keyframes pulse-green {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .header-badge {
+      background: rgba(208,133,41,0.2);
+      border: 1px solid rgba(208,133,41,0.4);
+      color: var(--amber);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* ── CHAT WRAPPER ── */
+    .chat-wrapper {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 0 16px;
+    }
+
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── WELCOME ── */
+    .welcome {
+      text-align: center;
+      padding: 32px 12px 16px;
+    }
+
+    .welcome-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rust) 0%, var(--amber) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 28px;
+      color: #fff;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(209,69,39,0.35);
+      border: 3px solid rgba(255,255,255,0.6);
+    }
+
+    .welcome h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--section-dark);
+      margin-bottom: 6px;
+    }
+
+    .welcome h2 em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .welcome p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 380px;
+      margin: 0 auto 24px;
+    }
+
+    /* ── SUGGESTION CHIPS ── */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .suggestion-btn {
+      background: var(--white);
+      border: 1.5px solid var(--warm-surface);
+      border-radius: var(--radius-pill);
+      padding: 9px 16px;
+      font-size: 13px;
+      font-family: var(--font);
+      font-weight: 500;
+      color: var(--text-body);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .suggestion-btn:hover {
+      border-color: var(--rust);
+      color: var(--rust);
+      background: var(--off-white);
+      box-shadow: 0 2px 10px rgba(209,69,39,0.15);
+      transform: translateY(-1px);
+    }
+
+    /* ── MESSAGES ── */
+    .message {
+      display: flex;
+      gap: 10px;
+      max-width: 86%;
+      animation: fadeUp 0.18s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user    { align-self: flex-end; flex-direction: row-reverse; }
+    .message.suellen { align-self: flex-start; }
+
+    .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .message.suellen .msg-avatar {
+      background: linear-gradient(135deg, var(--rust) 0%, var(--amber) 100%);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(209,69,39,0.3);
+    }
+
+    .message.user .msg-avatar {
+      background: linear-gradient(135deg, var(--section-dark) 0%, var(--hero-bg) 100%);
+      color: #fff;
+    }
+
+    .bubble {
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 14.5px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .message.suellen .bubble {
+      background: var(--white);
+      color: var(--text-dark);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      border: 1px solid var(--warm-card);
+    }
+
+    .message.user .bubble {
+      background: linear-gradient(135deg, var(--rust) 0%, var(--rust-dark) 100%);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 2px 10px rgba(209,69,39,0.25);
+    }
+
+    /* ── TYPING ── */
+    .typing .bubble {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 18px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--warm-surface);
+      animation: bounce 1.2s infinite;
+    }
+
+    .dot:nth-child(2) { animation-delay: .2s; }
+    .dot:nth-child(3) { animation-delay: .4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); background: var(--warm-surface); }
+      30% { transform: translateY(-6px); background: var(--rust); }
+    }
+
+    /* ── INPUT AREA ── */
+    .input-area {
+      padding: 12px 0 20px;
+      position: sticky;
+      bottom: 0;
+      background: linear-gradient(to top, var(--warm-light) 80%, transparent);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      background: var(--white);
+      border: 1.5px solid var(--warm-surface);
+      border-radius: 28px;
+      padding: 6px 8px 6px 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .input-row:focus-within {
+      border-color: var(--rust);
+      box-shadow: 0 4px 20px rgba(209,69,39,0.15);
+    }
+
+    #user-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: var(--font);
+      font-size: 15px;
+      color: var(--text-dark);
+      background: transparent;
+      resize: none;
+      max-height: 120px;
+      line-height: 1.5;
+      padding: 7px 0;
+    }
+
+    #user-input::placeholder { color: #bbb; }
+
+    #send-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rust) 0%, var(--rust-dark) 100%);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 8px rgba(209,69,39,0.35);
+    }
+
+    #send-btn:hover {
+      background: linear-gradient(135deg, var(--rust-mid) 0%, var(--rust) 100%);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(209,69,39,0.45);
+    }
+
+    #send-btn:active  { transform: scale(0.94); }
+    #send-btn:disabled {
+      background: var(--warm-surface);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    #send-btn svg { width: 17px; height: 17px; fill: #fff; }
+
+    .disclaimer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      opacity: 0.7;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 4px;
+      margin: 4px 0;
+    }
+
+    .divider span {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      opacity: 0.6;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--warm-surface);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .message { max-width: 94%; }
+      .suggestions { flex-direction: column; align-items: stretch; }
+      .suggestion-btn { text-align: center; }
+      .welcome h2 { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <strong>Mentoria Sublime</strong> · Tire suas dúvidas com a IA da Suellen
+</div>
+
+<header>
+  <div class="avatar">S</div>
+  <div class="header-info">
+    <h1>Suellen Warmling</h1>
+    <p><span class="status-dot"></span>Mentora IA · Online agora</p>
+  </div>
+  <div class="header-badge">Mentoria Sublime</div>
+</header>
+
+<div class="chat-wrapper">
+  <div id="messages">
+    <div class="welcome" id="welcome">
+      <div class="welcome-avatar">S</div>
+      <h2>Bom dia, <em>sublime!</em></h2>
+      <p>Sou a Suellen Warmling, sua mentora de marketing digital. Pergunta sobre Instagram, conteúdo, vendas no direct ou qualquer dúvida do seu negócio.</p>
+      <div class="divider"><span>por onde você quer começar?</span></div>
+      <div class="suggestions" style="margin-top:16px;">
+        <button class="suggestion-btn" onclick="sendSuggestion(this)">Não sei por onde começar no Instagram</button>
+        <button class="suggestion-btn" onclick="sendSuggestion(this)">Minhas visualizações de stories caíram</button>
+        <button class="suggestion-btn" onclick="sendSuggestion(this)">Como criar conteúdo sem tempo?</button>
+        <button class="suggestion-btn" onclick="sendSuggestion(this)">Quero vender mais no direct</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div class="input-row">
+      <textarea
+        id="user-input"
+        placeholder="Escreva sua dúvida aqui..."
+        rows="1"
+        onkeydown="handleKey(event)"
+        oninput="autoResize(this)"
+      ></textarea>
+      <button id="send-btn" onclick="sendMessage()" title="Enviar">
+        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+    <p class="disclaimer">Assistente IA baseado nos ensinamentos da Suellen Warmling · Mentoria Sublime</p>
+  </div>
+</div>
+
+<script>
+  const messagesEl = document.getElementById('messages');
+  const inputEl    = document.getElementById('user-input');
+  const sendBtn    = document.getElementById('send-btn');
+
+  let history   = [];
+  let isLoading = false;
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+
+  function sendSuggestion(btn) {
+    inputEl.value = btn.textContent;
+    sendMessage();
+  }
+
+  function removeWelcome() {
+    const w = document.getElementById('welcome');
+    if (w) w.remove();
+  }
+
+  function appendMessage(role, text) {
+    removeWelcome();
+    const wrap   = document.createElement('div');
+    wrap.className = `message ${role}`;
+
+    const av = document.createElement('div');
+    av.className = 'msg-avatar';
+    av.textContent = role === 'suellen' ? 'S' : 'V';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = text;
+
+    wrap.appendChild(av);
+    wrap.appendChild(bubble);
+    messagesEl.appendChild(wrap);
+    scrollBottom();
+    return bubble;
+  }
+
+  function appendTyping() {
+    removeWelcome();
+    const wrap = document.createElement('div');
+    wrap.className = 'message suellen typing';
+    wrap.id = 'typing-indicator';
+
+    const av = document.createElement('div');
+    av.className = 'msg-avatar';
+    av.textContent = 'S';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+
+    wrap.appendChild(av);
+    wrap.appendChild(bubble);
+    messagesEl.appendChild(wrap);
+    scrollBottom();
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typing-indicator');
+    if (t) t.remove();
+  }
+
+  function scrollBottom() {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  async function sendMessage() {
+    const text = inputEl.value.trim();
+    if (!text || isLoading) return;
+
+    isLoading = true;
+    sendBtn.disabled = true;
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+
+    appendMessage('user', text);
+    history.push({ role: 'user', content: text });
+    appendTyping();
+
+    try {
+      const res  = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+      });
+
+      const data = await res.json();
+      removeTyping();
+
+      if (data.error) {
+        appendMessage('suellen', 'Ops, tive um problema técnico. Tenta de novo daqui a pouco, tá?');
+        history.pop();
+      } else {
+        appendMessage('suellen', data.content);
+        history.push({ role: 'assistant', content: data.content });
+      }
+    } catch {
+      removeTyping();
+      appendMessage('suellen', 'Ops, perdi a conexão. Tenta de novo, tá?');
+      history.pop();
+    }
+
+    isLoading = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+</script>
+
+</body>
+</html>
